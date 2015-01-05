@@ -153,6 +153,7 @@ else if (typeof define === 'function' && define.amd) {
             delay: 0,
             diffLeft: 0,
             diffTop: -10,
+            showToolbarBelow : false,
             disableReturn: false,
             disableDoubleReturn: false,
             disableToolbar: false,
@@ -876,6 +877,7 @@ else if (typeof define === 'function' && define.amd) {
             range,
             boundary,
             middleBoundary,
+            toolbarIsBelow,
             defaultLeft = (this.options.diffLeft) - (this.toolbar.offsetWidth / 2),
             halfOffsetWidth = this.toolbar.offsetWidth / 2;
 
@@ -914,12 +916,13 @@ else if (typeof define === 'function' && define.amd) {
                 range = selection.getRangeAt(0);
                 boundary = range.getBoundingClientRect();
                 middleBoundary = (boundary.left + boundary.right) / 2;
+                toolbarIsBelow = (boundary.top + buttonHeight) > window.innerHeight;
 
-                if (boundary.top < buttonHeight) {
+                if (boundary.top < buttonHeight || (this.options.showToolbarBelow === true && toolbarIsBelow === false)) {
                     this.toolbar.classList.add('medium-toolbar-arrow-over');
                     this.toolbar.classList.remove('medium-toolbar-arrow-under');
                     this.toolbar.style.top = buttonHeight + boundary.bottom - this.options.diffTop + this.options.contentWindow.pageYOffset - this.toolbar.offsetHeight + 'px';
-                } else {
+                } else if ((this.options.showToolbarBelow === true && toolbarIsBelow === true) || boundary.top > buttonHeight) {
                     this.toolbar.classList.add('medium-toolbar-arrow-under');
                     this.toolbar.classList.remove('medium-toolbar-arrow-over');
                     this.toolbar.style.top = boundary.top + this.options.diffTop + this.options.contentWindow.pageYOffset - this.toolbar.offsetHeight + 'px';

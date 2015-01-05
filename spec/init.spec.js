@@ -76,6 +76,7 @@ describe('Initialization TestCase', function () {
                 delay: 0,
                 diffLeft: 0,
                 diffTop: -10,
+                showToolbarBelow : false,
                 disableReturn: false,
                 disableDoubleReturn: false,
                 disableEditing: false,
